@@ -1,0 +1,5 @@
+username = input("Enter username:")
+userage = int(input("Enter userage:"))
+year = str( ( 2024 - userage ) + 100 )	
+#print( username + " will be 100 years old in the year " + year )
+print (f"{username} will be 100 years old in the year {year}" ) 
