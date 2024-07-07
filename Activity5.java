@@ -1,33 +1,48 @@
 package Activities;
-abstract class Book {
-    String title;
-    //Abstract method
-    abstract void setTitle(String s);
-    
-    //Concrete method
-    String getTitle() {
-        return title;
-    }
-}
-
-class MyBook extends Book {
-    //Define abstract method
-    public void setTitle(String s) {
-        title = s;
-    }
-}
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
 
 public class Activity5 {
-    public static void main(String []args) {
-        //Initialize title of the book
-        String title = "Hover Car Racer";
-        //Create object for MyBook
-        Book newNovel = new MyBook();
-        //Set title
-        newNovel.setTitle(title);
-        
-        //Print result
-        System.out.println("The title is: " + newNovel.getTitle());
-    }
 
-}
+	public static void main(String[] args) {
+		// Set up Firefox driver
+        WebDriverManager.firefoxdriver().setup();
+        // Create a new instance of the Firefox driver
+        WebDriver driver = new FirefoxDriver();
+        // Create the Actions object
+        Actions builder = new Actions(driver);
+
+        // Open the page
+        driver.get("https://v1.training-support.net/selenium/input-events");
+        // Print the title of the page
+        System.out.println("Home page title: " + driver.getTitle());
+
+        // Perform left click
+        builder.click().pause(1000).build().perform();
+        // Print the front side text
+        String frontText = driver.findElement(By.className("active")).getText();
+        System.out.println(frontText);
+
+        // Perform left click
+        builder.doubleClick().pause(1000).build().perform();
+        // Print the front side text
+        frontText = driver.findElement(By.className("active")).getText();
+        System.out.println(frontText);
+
+        // Perform left click
+        builder.contextClick().pause(1000).build().perform();
+        // Print the front side text
+        frontText = driver.findElement(By.className("active")).getText();
+        System.out.println(frontText);
+
+        // Close the browser
+        driver.close();
+    }
+		// TODO Auto-generated method stub
+
+	}
+
+

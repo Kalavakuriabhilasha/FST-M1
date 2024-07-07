@@ -1,25 +1,38 @@
 package Activities;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class Activity3 {
-    public static void main(String args[]) {
-        int seconds = 1000000000;
 
-        double EarthSeconds = 31557600;
-        double MercurySeconds = 0.2408467;
-        double VenusSeconds = 0.61519726;
-        double MarsSeconds = 1.8808158;
-        double JupiterSeconds = 11.862615;
-        double SaturnSeconds = 29.447498;
-        double UranusSeconds = 84.016846;
-        double NeptuneSeconds = 164.79132;
-        
-        System.out.println("Age on Mercury: " + seconds / EarthSeconds / MercurySeconds);
-        System.out.println("Age on Venus: " + seconds / EarthSeconds / VenusSeconds);
-        System.out.println("Age on Earth: " + seconds / EarthSeconds);
-        System.out.println("Age on Mars: " + seconds / EarthSeconds / MarsSeconds);
-        System.out.println("Age on Jupiter: " + seconds / EarthSeconds / JupiterSeconds);
-        System.out.println("Age on Saturn: " + seconds / EarthSeconds / SaturnSeconds);
-        System.out.println("Age on Uranus: " + seconds / EarthSeconds / UranusSeconds);
-        System.out.println("Age on Neptune: " + seconds / EarthSeconds / NeptuneSeconds);
-    }
-}
+	public static void main(String[] args) {
+	        // Set up Firefox driver
+	        WebDriverManager.firefoxdriver().setup();
+	        // Create a new instance of the Firefox driver
+	        WebDriver driver = new FirefoxDriver();
+
+	        // Open the page
+	        driver.get("https://v1.training-support.net/selenium/login-form");
+	        // Print the title of the page
+	        System.out.println("Home page title: " + driver.getTitle());
+
+	        // Find the username field and enter the username
+	        driver.findElement(By.xpath("//input[@id='username']")).sendKeys("admin");
+	        // Find the password field and enter the password
+	        driver.findElement(By.xpath("//input[@id='password']")).sendKeys("password");
+	        // Find the login button and click it
+	        driver.findElement(By.xpath("//button[text()='Log in']")).click();
+
+	        // Print the confirmation message
+	        String message = driver.findElement(By.xpath("//div[@id='action-confirmation']")).getText();
+	        System.out.println("Login message: " + message);
+
+	        // Close the browser
+	        driver.close();
+	    }
+		// TODO Auto-generated method stub
+
+	}
+
+

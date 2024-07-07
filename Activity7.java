@@ -1,73 +1,55 @@
 package Activities;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
-interface BicycleParts {
-    public int gears = 0;
-    public int currentSpeed = 0;
-}
+import org.openqa.selenium.By;
 
-interface BicycleOperations {
-    public void applyBrake(int decrement);
-    public void speedUp(int increment);
-}
-
-//Base class 
-class Bicycle implements BicycleParts, BicycleOperations {
-
-    public int gears;
-    public int currentSpeed;
-
-    //the Bicycle class has one constructor
-    public Bicycle(int gears, int currentSpeed) {
-        this.gears = gears;
-        this.currentSpeed = currentSpeed;
-    }
-
-    //Bicycle class has three methods
-    public void applyBrake(int decrement) {
-        currentSpeed -= decrement;
-        System.out.println("Current speed: " + currentSpeed);
-    }
-
-    public void speedUp(int increment) {
-        currentSpeed += increment;
-        System.out.println("Current speed: " + currentSpeed);
-    }
-
-    //Method to print info of Bicycle
-    public String bicycleDesc() {
-        return("No of gears are "+ gears + "\nSpeed of bicycle is " + currentSpeed);
-    }
-}
-
-//Derived class
-class MountainBike extends Bicycle {
-
-    //The MountainBike subclass adds one more field
-    public int seatHeight;
-
-    //The MountainBike subclass has one constructor
-    public MountainBike(int gears, int currentSpeed, int startHeight) {
-        //Invoking base-class(Bicycle) constructor
-        super(gears, currentSpeed);
-        seatHeight = startHeight;
-    }
-
-    // the MountainBike subclass adds one more method
-    public void setHeight(int newValue) {
-        seatHeight = newValue;
-    }
-
-    public String bicycleDesc() {
-        return (super.bicycleDesc()+ "\nSeat height is " + seatHeight);
-    }  
-}
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
 
 public class Activity7 {
-    public static void main(String args[]) {
-        MountainBike mb = new MountainBike(3, 0, 25);
-        System.out.println(mb.bicycleDesc());
-        mb.speedUp(20);
-        mb.applyBrake(5);
-    }
+
+	public static void main(String[] args) {
+	        // Set up Firefox driver
+	        WebDriverManager.firefoxdriver().setup();
+	        // Create a new instance of the Firefox driver
+	        WebDriver driver = new FirefoxDriver();
+	        // Create the Actions object
+	        Actions builder = new Actions(driver);
+
+	        // Open the page
+	        driver.get("https://v1.training-support.net/selenium/drag-drop");
+	        // Print the title of the page
+	        System.out.println("Home page title: " + driver.getTitle());
+
+	        // Find the football
+	        WebElement football = driver.findElement(By.id("draggable"));
+	        // Find the dropzone1
+	        WebElement dropzone1 = driver.findElement(By.id("droppable"));
+	        // Find the dropzone2
+	        WebElement dropzone2 = driver.findElement(By.id("dropzone2"));
+
+	        // Perform drag and drop to dropzone 1
+	        builder.clickAndHold(football).moveToElement(dropzone1).pause(2000).release().build().perform();
+	        // Verify that the ball was dropped in dropzone 1
+	        String dropzone1Verify = dropzone1.findElement(By.tagName("p")).getText();
+	        if(dropzone1Verify.equals("Dropped!")) {
+	            System.out.println("Ball was dropped in dropzone 1");
+	        }
+
+	        // Perform drag and drop to dropzone 2
+	        builder.dragAndDrop(football, dropzone2).build().perform();
+	        // Verify that the ball was dropped in dropzone 2
+	        String dropzone2Verify = dropzone2.findElement(By.tagName("p")).getText();
+	        if(dropzone2Verify.equals("Dropped!")) {
+	            System.out.println("Ball was dropped in dropzone 2");
+	        }
+
+	        // Close the browser
+	        driver.close();
+		// TODO Auto-generated method stub
+
+	}
 
 }

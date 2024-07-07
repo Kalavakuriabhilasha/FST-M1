@@ -1,37 +1,38 @@
 package Activities;
-
-import java.util.Arrays;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class Activity2 {
-    public static void main(String[] args) {
-        int numArr[] = {10, 77, 10, 54, -11, 10};
-        System.out.println("Original Array: " + Arrays.toString(numArr));
-        int searchNum = 10;
-        int fixedSum = 30;
 
-        //Print result
-        System.out.println("Result: " + result(numArr, searchNum, fixedSum));
-}
+	public static void main(String[] args) {	
+			
+	        WebDriverManager.firefoxdriver().setup();
+	        // Create a new instance of the Firefox driver
+	        WebDriver driver = new FirefoxDriver();
 
-public static boolean result(int[] numbers, int searchNum, int fixedSum) {
-    int temp_sum = 0;
-    //Loop through array
-    for (int number : numbers) {
-        //If value is 10
-        if (number == searchNum) {
-            //Add them
-            temp_sum += searchNum;
-        }
+	        // Open the page
+	        driver.get("https://v1.training-support.net/selenium/login-form");
+	        // Print the title of the page
+	        System.out.println("Home page title: " + driver.getTitle());
 
-        //Sum should not be more than 30
-        if (temp_sum > fixedSum) {
-            break;
-        }
-    }
+	        // Find the username field and enter the username
+	        driver.findElement(By.id("username")).sendKeys("admin");
+	        // Find the password field and enter the password
+	        driver.findElement(By.id("password")).sendKeys("password");
+	        // Find the login button and click it
+	        driver.findElement(By.xpath("//button[text()='Log in']")).click();
 
-    //Return true if condition satisfies
-    return temp_sum == fixedSum;
-   }
-}
+	        // Print the confirmation message
+	        String message = driver.findElement(By.id("action-confirmation")).getText();
+	        System.out.println("Login message: " + message);
+
+	        // Close the browser
+	        driver.close();
+	    }
+		// TODO Auto-generated method stub
+
+	}
 
 
