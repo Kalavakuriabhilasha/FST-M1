@@ -1,41 +1,59 @@
-package activities;
+package Activity;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Activity1 {
-
+    // Driver Declaration
     AndroidDriver driver;
 
+    // Set up method
     @BeforeClass
     public void setUp() throws MalformedURLException {
-        UiAutomator2Options caps = new UiAutomator2Options()
-                .setPlatformName("android")
-                .setAutomationName("UiAutomator2")
-                .setAppPackage("com.oneplus.calculator")
-                .setAppActivity("com.android.calculator2.Calculator")
-                .noReset();
+        // Desired Capabilities
+        UiAutomator2Options options = new UiAutomator2Options();
+        options.setPlatformName("android");
+        options.setAutomationName("UiAutomator2");
+        //launching app
+        options.setAppPackage("com.google.android.calculator");
+        options.setAppActivity("com.android.calculator2.Calculator");
+        options.noReset();//not reset
 
-        URL serverURL = new URL("http://localhost:4723/wd/hub");
+        // Server Address
+        URL serverURL = new URL("http://localhost:4723/");
 
-        driver = new AndroidDriver(serverURL, caps);
-
+        // Driver Initialization
+        driver = new AndroidDriver(serverURL, options);
     }
 
+    // Test method
     @Test
-    public void multiplyTest(){
-        driver.findElement(AppiumBy.id("com.oneplus.calculator:id/digit_7")).click();
-        driver.findElement(AppiumBy.accessibilityId("Multiply")).click();
-        driver.findElement(AppiumBy.id("com.oneplus.calculator:id/digit_6")).click();
-        driver.findElement(AppiumBy.accessibilityId("Equals")).click();
-        String result = driver.findElement(AppiumBy.id("com.oneplus.calculator:id/result")).getText();
-        Assert.assertEquals(Integer.valueOf(result), 42);
+    public void multiplyTest() {
+        // Perform the calculation by locators 
+    	driver.findElement(AppiumBy.xpath("//android.widget.ImageButton[@content-desc=\"9\"]")).click();
+        driver.findElement(AppiumBy.accessibilityId("multiply")).click();
+        driver.findElement(AppiumBy.id("digit_8")).click();
+        driver.findElement(AppiumBy.accessibilityId("equals")).click();
+
+        // Find the result
+        String result = driver.findElement(AppiumBy.id("com.google.android.calculator:id/result_final")).getText();
+
+        // Assertion
+        Assert.assertEquals(result, "72");
+    }
+
+
+    // Tear down method
+    @AfterClass
+    public void tearDown() {
+        // Close the app
+        driver.quit();
     }
 }
