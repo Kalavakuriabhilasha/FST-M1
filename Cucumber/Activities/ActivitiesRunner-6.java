@@ -13,6 +13,6 @@ import io.cucumber.junit.CucumberOptions;
     plugin = {"pretty"},
     monochrome = true
 )
-public class ActivitiesRunner6 {
+public class TestRunner06 {
 
 }
